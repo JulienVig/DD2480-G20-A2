@@ -39,6 +39,7 @@ public class CI extends AbstractHandler
         // 2nd compile the code
 
         gitClone();
+        
 
         response.getWriter().println("CI job done");
     }
