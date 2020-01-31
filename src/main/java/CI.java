@@ -25,7 +25,15 @@ import com.google.common.util.concurrent.*;
 */
 public class CI extends AbstractHandler
 {
-
+    /**
+     * The method called by the github webhook
+     * @param  target
+     * @param  baseRequest
+     * @param  request
+     * @param  response
+     * @throws IOException
+     * @throws ServletException
+     */
     public void handle(String target,
                        Request baseRequest,
                        HttpServletRequest request,
@@ -37,18 +45,23 @@ public class CI extends AbstractHandler
         baseRequest.setHandled(true);
 
         System.out.println(target);
+
         response.getWriter().println("CI job done");
 
         Thread t = new Thread(new Runnable(){
           public void run() {
              gitClone();
              boolean success = buildRepo();
-             //Link the notify and build history here
+             //Link to the email /commit status method here
           }
         });
         t.start();
     }
 
+    /**
+     * Compiles and tests the assessment branch
+     * @return a boolean, the output of the build
+     */
     private static boolean buildRepo(){
       boolean success = true;
       ProjectConnection connection = GradleConnector.newConnector()
@@ -69,6 +82,9 @@ public class CI extends AbstractHandler
       return success;
     }
 
+    /**
+     * Creates a folder containing the branch assessment of the repo.
+     */
     private static void gitClone() {
       try{
       Git git = Git.cloneRepository()
