@@ -6,31 +6,24 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 
-<<<<<<< HEAD
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.File;
-=======
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.*;
->>>>>>> e54edfe... Compile and Test assessment #7 #10 (#11)
 
 import org.eclipse.jgit.api.*;
 import org.gradle.tooling.*;
 import java.util.concurrent.*;
 import com.google.common.util.concurrent.*;
-<<<<<<< HEAD
 
 import java.util.stream.Collectors;
 import org.json.JSONObject;
 
 
 
-=======
->>>>>>> e54edfe... Compile and Test assessment #7 #10 (#11)
 
 /**
  Skeleton of a ContinuousIntegrationServer which acts as webhook
@@ -39,7 +32,6 @@ import org.json.JSONObject;
 */
 public class CI extends AbstractHandler
 {
-<<<<<<< HEAD
     /**
      * The method called by the github webhook.
      * @param  target
@@ -49,9 +41,7 @@ public class CI extends AbstractHandler
      * @throws IOException
      * @throws ServletException
      */
-=======
 
->>>>>>> b59d55c... Trigger webhook
     public void handle(String target,
                        Request baseRequest,
                        HttpServletRequest request,
@@ -62,9 +52,9 @@ public class CI extends AbstractHandler
         response.setStatus(HttpServletResponse.SC_OK);
         baseRequest.setHandled(true);
         System.out.println(target);
+
         response.getWriter().println("CI job done");
 
-<<<<<<< HEAD
         gitClone();
 
 
@@ -99,18 +89,20 @@ public class CI extends AbstractHandler
 
         Check c = new Check();
         Thread t = new Thread(c);
-=======
         Thread t = new Thread(new Runnable(){
           public void run() {
              gitClone();
              boolean success = buildRepo();
-             //Link the notify and build history here
+             //Link to the email /commit status method here
           }
         });
->>>>>>> b59d55c... Trigger webhook
         t.start();
     }
 
+    /**
+     * Compiles and tests the assessment branch
+     * @return a boolean, the output of the build
+     */
     private static boolean buildRepo(){
       boolean success = true;
       ProjectConnection connection = GradleConnector.newConnector()
@@ -131,6 +123,9 @@ public class CI extends AbstractHandler
       return success;
     }
 
+    /**
+     * Creates a folder containing the branch assessment of the repo.
+     */
     private static void gitClone() {
       try{
       Git git = Git.cloneRepository()
@@ -145,18 +140,6 @@ public class CI extends AbstractHandler
     // used to start the CI server in command line
     public static void main(String[] args) throws Exception
     {
-<<<<<<< HEAD
-=======
-        // Thread t = new Thread(new Runnable(){
-        //   public void run() {
-        //      gitClone();
-        //      boolean success = buildRepo();
-        //      //Link the notify and build history here
-        //   }
-        // });
-        // t.start();
-
->>>>>>> b59d55c... Trigger webhook
         Server server = new Server(8020);
         server.setHandler(new CI());
         server.start();
