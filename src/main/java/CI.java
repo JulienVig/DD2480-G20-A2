@@ -59,7 +59,7 @@ public class CI extends AbstractHandler
     {
         // Thread t = new Thread(new Runnable(){
         //   public void run() {
-        //      GitUtil.gitClone("assessment");
+        //      GitUtil.gitClone("assess_error");
         //      boolean success = GitUtil.buildRepo();
         //      //Link the notify and build history here
         //   }
