@@ -16,6 +16,7 @@ import java.io.File;
 import org.eclipse.jgit.api.*;
 
 import org.gradle.tooling.*;
+
 /**
  Skeleton of a ContinuousIntegrationServer which acts as webhook
  See the Jetty documentation for API documentation of those classes.
@@ -23,15 +24,15 @@ import org.gradle.tooling.*;
 */
 
 
-public class Check implements Runnable {
+public class Check{
 
-  public boolean success;
 
-  public void run() {
-    success = true;
-    gitClone();
-    System.out.println("************************ Build output -> "+buildRepo());
-    //runRepo();
+
+  public static boolean get() {
+     gitClone();
+     boolean success = buildRepo();
+     System.out.println("************************ Build output -> "+success);
+     return success;
   }
 
 

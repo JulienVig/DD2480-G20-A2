@@ -14,8 +14,10 @@ import java.io.InputStreamReader;
 import java.io.File;
 
 import org.eclipse.jgit.api.*;
-
 import org.gradle.tooling.*;
+import java.util.concurrent.*;
+import com.google.common.util.concurrent.*;
+
 /**
  Skeleton of a ContinuousIntegrationServer which acts as webhook
  See the Jetty documentation for API documentation of those classes.
@@ -23,6 +25,8 @@ import org.gradle.tooling.*;
 */
 public class CI extends AbstractHandler
 {
+    private boolean success;
+
     public void handle(String target,
                        Request baseRequest,
                        HttpServletRequest request,
@@ -43,24 +47,24 @@ public class CI extends AbstractHandler
         // gitClone();
         // System.out.println("------------------------------ "+buildRepo());
         //runRepo();
-        Check c = new Check();
-        Thread t = new Thread(c);
-        t.start();
     }
 
     // used to start the CI server in command line
     public static void main(String[] args) throws Exception
     {
-        // 
+        //
         // Check c = new Check();
         // Thread t = new Thread(c);
         // t.start();
         // t.join();
         // System.out.println("------------------------------ "+c.success);
         //runRepo();
-        Server server = new Server(8020);
-        server.setHandler(new CI());
-        server.start();
-        server.join();
+        boolean success = CompletableFuture.supplyAsync(() -> Check.get()).get();
+        System.out.println(success);
+
+        // Server server = new Server(8020);
+        // server.setHandler(new CI());
+        // server.start();
+        // server.join();
     }
 }
