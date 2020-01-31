@@ -48,21 +48,12 @@ public class GitUtil {
          connection.newBuild().forTasks("build")
          .setStandardOutput(System.out).run();
       } catch(Exception e){
-<<<<<<< HEAD
-
         System.out.println("************************ Error -> "+e);
-=======
-        //System.out.println("************************ Error -> "+e);
->>>>>>> 3409424... Create GitUtil class #10
         success = false;
       }
       finally {
          connection.close();
-<<<<<<< HEAD
          System.out.println("Build output: "+success);
-=======
-         System.out.println(success);
->>>>>>> 3409424... Create GitUtil class #10
       }
       return success;
     }
@@ -104,7 +95,6 @@ public class GitUtil {
         }
       });
     }
-<<<<<<< HEAD
 
     /* This function taking in a sha of a commit and a boolean
     * The boolean value represents if that specific commit lead to a succesful build or not
@@ -149,6 +139,4 @@ public class GitUtil {
 
 
     }
-=======
->>>>>>> 3409424... Create GitUtil class #10
 }
