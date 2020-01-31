@@ -52,18 +52,19 @@ public class CI extends AbstractHandler
     private static boolean buildRepo(){
       boolean success = true;
       ProjectConnection connection = GradleConnector.newConnector()
-      .forProjectDirectory(new File("DD2480-G20-Assignment1"))
+      .forProjectDirectory(new File("DD2480-G20-A2"))
       .connect();
 
       try {
          connection.newBuild().forTasks("build")
          .setStandardOutput(System.out).run();
       } catch(Exception e){
-        System.out.println("************************ Error -> "+e);
+        //System.out.println("************************ Error -> "+e);
         success = false;
       }
       finally {
          connection.close();
+         System.out.println(success);
       }
       return success;
     }
@@ -71,9 +72,9 @@ public class CI extends AbstractHandler
     private static void gitClone() {
       try{
       Git git = Git.cloneRepository()
-      .setURI( "https://github.com/filhed97/DD2480-G20-Assignment1.git" )
+      .setURI( "https://github.com/JulienVig/DD2480-G20-A2.git" )
       .call();
-      git.checkout().setName( "origin/" + "gradle").call();
+      git.checkout().setName( "origin/" + "assessment").call();
       } catch(Exception e) {
         System.err.println("Clone exception !!");
       }
