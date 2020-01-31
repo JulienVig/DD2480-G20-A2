@@ -88,73 +88,12 @@ public class CI extends AbstractHandler
         Thread t = new Thread(c);
         Thread t = new Thread(new Runnable(){
           public void run() {
-             gitClone();
-             boolean success = buildRepo();
+             GitUtil.gitClone("assessment");
+             boolean success = GitUtil.buildRepo();
              //Link to the email /commit status method here
           }
         });
         t.start();
-    }
-
-    /**
-     * Compiles and tests the assessment branch
-     * @return a boolean, the output of the build
-     */
-    public static boolean buildRepo(){
-      boolean success = true;
-      ProjectConnection connection = GradleConnector.newConnector()
-      .forProjectDirectory(new File("DD2480-G20-A2"))
-      .connect();
-
-      try {
-         connection.newBuild().forTasks("build")
-         .setStandardOutput(System.out).run();
-      } catch(Exception e){
-        //System.out.println("************************ Error -> "+e);
-        success = false;
-      }
-      finally {
-         connection.close();
-         System.out.println(success);
-      }
-      return success;
-    }
-
-    /**
-     * Creates a folder containing the branch assessment of the repo.
-     */
-    public static void gitClone() {
-      try{
-        deleteRepo("DD2480-G20-A2/");
-
-        Git git = Git.cloneRepository()
-        .setURI( "https://github.com/JulienVig/DD2480-G20-A2.git" )
-        .call();
-        git.checkout().setName( "origin/" + "assessment").call();
-      } catch(Exception e) {
-        System.err.println("Clone exception !! "+e);
-      }
-    }
-    /**
-     * Deletes recursively the named directory
-     * @param  name        the name of the directory
-     * @throws IOException
-     */
-    public static void deleteRepo(String name) throws IOException{
-      Path directory = Paths.get(name);
-      Files.walkFileTree(directory, new SimpleFileVisitor<Path>() {
-        @Override
-        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-           Files.deleteIfExists(file);
-           return FileVisitResult.CONTINUE;
-        }
-
-        @Override
-        public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
-           Files.deleteIfExists(dir);
-           return FileVisitResult.CONTINUE;
-        }
-      });
     }
 
     // used to start the CI server in command line
@@ -168,8 +107,8 @@ public class CI extends AbstractHandler
 =======
         Thread t = new Thread(new Runnable(){
           public void run() {
-             gitClone();
-             boolean success = buildRepo();
+             GitUtil.gitClone("assessment");
+             boolean success = GitUtil.buildRepo();
              //Link the notify and build history here
           }
         });

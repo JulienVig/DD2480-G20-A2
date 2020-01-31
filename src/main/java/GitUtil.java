@@ -5,6 +5,7 @@ import javax.servlet.ServletException;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
+<<<<<<< HEAD
 import org.eclipse.jetty.client.HttpClient;
 import org.eclipse.jetty.client.api.ContentResponse;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
@@ -13,6 +14,8 @@ import org.eclipse.jetty.http.HttpHeader;
 import org.eclipse.jetty.client.api.AuthenticationStore;
 import org.eclipse.jetty.client.util.BasicAuthentication;
 import java.net.URI;
+=======
+>>>>>>> 3409424... Create GitUtil class #10
 
 import java.io.File;
 import java.io.IOException;
@@ -45,13 +48,21 @@ public class GitUtil {
          connection.newBuild().forTasks("build")
          .setStandardOutput(System.out).run();
       } catch(Exception e){
+<<<<<<< HEAD
 
         System.out.println("************************ Error -> "+e);
+=======
+        //System.out.println("************************ Error -> "+e);
+>>>>>>> 3409424... Create GitUtil class #10
         success = false;
       }
       finally {
          connection.close();
+<<<<<<< HEAD
          System.out.println("Build output: "+success);
+=======
+         System.out.println(success);
+>>>>>>> 3409424... Create GitUtil class #10
       }
       return success;
     }
@@ -93,6 +104,7 @@ public class GitUtil {
         }
       });
     }
+<<<<<<< HEAD
 
     /* This function taking in a sha of a commit and a boolean
     * The boolean value represents if that specific commit lead to a succesful build or not
@@ -137,4 +149,6 @@ public class GitUtil {
 
 
     }
+=======
+>>>>>>> 3409424... Create GitUtil class #10
 }
