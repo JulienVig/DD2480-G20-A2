@@ -15,20 +15,21 @@ import com.google.common.util.concurrent.*;
 
 
 public class Tests {
-
+   private File repo = new File("DD2480-G20-A2");
   /**
    * Tests if effectively delete file
    * Creates a directory and checks that deleteRepo()
    * deletes it.
    */
+
   @Test
-  public void deleteRepo() throws IOException{
+  public void TestDeleteRepo() throws IOException{
     try {
       File f = new File("test_delete");
       boolean created = f.mkdir();
       System.out.print("Folder to delte created? "+created);
 
-      CI.deleteRepo("test_delete");
+      GitUtil.deleteRepo("test_delete");
       assertThat(f.exists(), equalTo(false));
       } catch(Exception e) {
          // if any error occurs
@@ -39,10 +40,24 @@ public class Tests {
    * Tests if effectively clone the repository
    * Clone the repo and checks if the folder exits.
    */
+  @Ignore                                               //Junit ignores this test
   @Test
-  public void gitClone() {
-    File f = new File("DD2480-G20-A2");
-    CI.gitClone();
-    assertThat(f.exists(),equalTo(true));
+  public void TestGitClone() {
+    GitUtil.gitClone("assessment");
+    assertThat(repo.exists(),equalTo(true));
+  }
+
+  /**
+   * Tests if build compiles and tests the repository
+   *
+   */
+  @Test
+  public void TestBuildRepo(){
+    GitUtil.gitClone("assessment");
+    assertThat(GitUtil.buildRepo(), equalTo(true));
+
+    //GitUtil.gitClone("assess_error");
+    //assertThat(GitUtil.buildRepo(), equalTo(false));
+
   }
 }
