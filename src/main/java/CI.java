@@ -34,72 +34,32 @@ public class CI extends AbstractHandler
         baseRequest.setHandled(true);
 
         System.out.println(target);
-
+        response.getWriter().println("CI job done");
         // here you do all the continuous integration tasks
         // for example
         // 1st clone your repository
         // 2nd compile the code
 
-        gitClone();
-        System.out.println("------------------------------ "+buildRepo());
+        // gitClone();
+        // System.out.println("------------------------------ "+buildRepo());
         //runRepo();
 
-        response.getWriter().println("CI job done");
+
     }
-
-    private static boolean buildRepo(){
-      boolean success = true;
-      ProjectConnection connection = GradleConnector.newConnector()
-      .forProjectDirectory(new File("DD2480-G20-Assignment1"))
-      .connect();
-
-      try {
-         connection.newBuild().forTasks("build")
-         .setStandardOutput(System.out).run();
-      } catch(Exception e){
-        System.out.println("************************ Error ->"+e);
-        success = false;
-      }
-      finally {
-         connection.close();
-      }
-      return success;
-    }
-
-    private static void runRepo(){
-      ProjectConnection connection = GradleConnector.newConnector()
-      .forProjectDirectory(new File("DD2480-G20-Assignment1"))
-      .connect();
-
-      try {
-         connection.newBuild().forTasks("run")
-         .setStandardOutput(System.out).run();
-      } finally {
-         connection.close();
-      }
-    }
-
-    private static void gitClone() {
-      try{
-      Git git = Git.cloneRepository()
-      .setURI( "https://github.com/filhed97/DD2480-G20-Assignment1.git" )
-      .call();
-      git.checkout().setName( "origin/" + "gradle").call();
-      } catch(Exception e) {
-        System.err.println("Clone exception !!");
-      }
-    }
-
 
     // used to start the CI server in command line
     public static void main(String[] args) throws Exception
     {
-        // gitClone();
-        // System.out.println("------------------------------ "+buildRepo());
+
+        Check c = new Check();
+        Thread t = new Thread(c);
+        t.start();
+        t.join();
+        System.out.println("------------------------------ "+c.success);
         //runRepo();
-        Server server = new Server(8020);
-        server.setHandler(new CI());
-        server.start();
-        server.join();
+        // Server server = new Server(8020);
+        // server.setHandler(new CI());
+        // server.start();
+        // server.join();
     }
 }
