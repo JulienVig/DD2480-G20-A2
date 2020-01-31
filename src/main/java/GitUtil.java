@@ -42,7 +42,7 @@ public class GitUtil {
       }
       finally {
          connection.close();
-         System.out.println(success);
+         System.out.println("Build output "+success);
       }
       return success;
     }

@@ -59,18 +59,18 @@ public class CI extends AbstractHandler
     // used to start the CI server in command line
     public static void main(String[] args) throws Exception
     {
-        Thread t = new Thread(new Runnable(){
-          public void run() {
-             GitUtil.gitClone("assessment");
-             boolean success = GitUtil.buildRepo();
-             //Link the notify and build history here
-          }
-        });
-        t.start();
+        // Thread t = new Thread(new Runnable(){
+        //   public void run() {
+        //      GitUtil.gitClone("assessment");
+        //      boolean success = GitUtil.buildRepo();
+        //      //Link the notify and build history here
+        //   }
+        // });
+        // t.start();
 
-        // Server server = new Server(8020);
-        // server.setHandler(new CI());
-        // server.start();
-        // server.join();
+        Server server = new Server(8020);
+        server.setHandler(new CI());
+        server.start();
+        server.join();
     }
 }
