@@ -24,7 +24,7 @@ import com.google.common.util.concurrent.*;
 public class CI extends AbstractHandler
 {
     /**
-     * The method called by the github webhook
+     * The method called by the github webhook.
      * @param  target
      * @param  baseRequest
      * @param  request
