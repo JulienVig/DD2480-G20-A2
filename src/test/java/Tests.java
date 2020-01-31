@@ -30,7 +30,7 @@ import java.io.InputStreamReader;
 
 
 public class Tests {
-   private File repo = new File("DD2480-G20-A2");
+
   /**
    * Tests if effectively delete file
    * Creates a directory and checks that deleteRepo()
@@ -143,5 +143,4 @@ public class Tests {
 
     assertThat(state, equalTo("error"));
   }
-
 }

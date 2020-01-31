@@ -6,9 +6,6 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
@@ -103,7 +100,7 @@ public class CI extends AbstractHandler
      * Compiles and tests the assessment branch
      * @return a boolean, the output of the build
      */
-    private static boolean buildRepo(){
+    public static boolean buildRepo(){
       boolean success = true;
       ProjectConnection connection = GradleConnector.newConnector()
       .forProjectDirectory(new File("DD2480-G20-A2"))
@@ -126,23 +123,62 @@ public class CI extends AbstractHandler
     /**
      * Creates a folder containing the branch assessment of the repo.
      */
-    private static void gitClone() {
+    public static void gitClone() {
       try{
-      Git git = Git.cloneRepository()
-      .setURI( "https://github.com/JulienVig/DD2480-G20-A2.git" )
-      .call();
-      git.checkout().setName( "origin/" + "assessment").call();
+        deleteRepo("DD2480-G20-A2/");
+
+        Git git = Git.cloneRepository()
+        .setURI( "https://github.com/JulienVig/DD2480-G20-A2.git" )
+        .call();
+        git.checkout().setName( "origin/" + "assessment").call();
       } catch(Exception e) {
-        System.err.println("Clone exception !!");
+        System.err.println("Clone exception !! "+e);
       }
+    }
+    /**
+     * Deletes recursively the named directory
+     * @param  name        the name of the directory
+     * @throws IOException
+     */
+    public static void deleteRepo(String name) throws IOException{
+      Path directory = Paths.get(name);
+      Files.walkFileTree(directory, new SimpleFileVisitor<Path>() {
+        @Override
+        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+           Files.deleteIfExists(file);
+           return FileVisitResult.CONTINUE;
+        }
+
+        @Override
+        public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+           Files.deleteIfExists(dir);
+           return FileVisitResult.CONTINUE;
+        }
+      });
     }
 
     // used to start the CI server in command line
     public static void main(String[] args) throws Exception
     {
+<<<<<<< HEAD
         Server server = new Server(8020);
         server.setHandler(new CI());
         server.start();
         server.join();
+=======
+        Thread t = new Thread(new Runnable(){
+          public void run() {
+             gitClone();
+             boolean success = buildRepo();
+             //Link the notify and build history here
+          }
+        });
+        t.start();
+
+        // Server server = new Server(8020);
+        // server.setHandler(new CI());
+        // server.start();
+        // server.join();
+>>>>>>> 232945d... Add unit tests #10
     }
 }
