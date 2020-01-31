@@ -42,7 +42,6 @@ public class CI extends AbstractHandler
         response.setStatus(HttpServletResponse.SC_OK);
         baseRequest.setHandled(true);
         System.out.println(target);
-
         response.getWriter().println("CI job done");
 
         Thread t = new Thread(new Runnable(){
