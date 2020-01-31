@@ -41,8 +41,8 @@ public class CI extends AbstractHandler
         // 2nd compile the code
 
         gitClone();
-        buildRepo();
-        runRepo();
+        System.out.println("------------------------------ "+buildRepo());
+        //runRepo();
 
         response.getWriter().println("CI job done");
     }
@@ -94,12 +94,12 @@ public class CI extends AbstractHandler
     // used to start the CI server in command line
     public static void main(String[] args) throws Exception
     {
-        gitClone();
-        System.out.println(buildRepo());
+        // gitClone();
+        // System.out.println("------------------------------ "+buildRepo());
         //runRepo();
-        // Server server = new Server(8020);
-        // server.setHandler(new CI());
-        // server.start();
-        // server.join();
+        Server server = new Server(8020);
+        server.setHandler(new CI());
+        server.start();
+        server.join();
     }
 }
