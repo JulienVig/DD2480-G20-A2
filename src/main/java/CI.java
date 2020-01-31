@@ -44,47 +44,19 @@ public class CI extends AbstractHandler
         // 1st clone your repository
         // 2nd compile the code
 
-         gitClone();
-         System.out.println("------------------------------ "+buildRepo());
+         // gitClone();
+         // System.out.println("------------------------------ "+buildRepo());
         //runRepo();
-    }
 
-
-
-    private static boolean buildRepo(){
-      boolean success = true;
-      ProjectConnection connection = GradleConnector.newConnector()
-      .forProjectDirectory(new File("DD2480-G20-A2"))
-      .connect();
-
-      try {
-         connection.newBuild().forTasks("build")
-         .setStandardOutput(System.out).run();
-      } catch(Exception e){
-        System.out.println("************************ Error -> "+e);
-        success = false;
-      }
-      finally {
-         connection.close();
-      }
-      return success;
-    }
-
-    private static void gitClone() {
-      try{
-      Git git = Git.cloneRepository()
-      .setURI( "https://github.com/JulienVig/DD2480-G20-A2.git" )
-      .call();
-      git.checkout().setName( "origin/" + "assessment").call();
-      } catch(Exception e) {
-        System.err.println("Clone exception !!");
-      }
+        Check c = new Check();
+        Thread t = new Thread(c);
+        t.start();
     }
 
     // used to start the CI server in command line
     public static void main(String[] args) throws Exception
     {
-        //
+
         // Check c = new Check();
         // Thread t = new Thread(c);
         // t.start();
@@ -93,7 +65,6 @@ public class CI extends AbstractHandler
         //runRepo();
         // boolean success = CompletableFuture.supplyAsync(() -> Check.get()).get();
         // System.out.println(success);
-
         // gitClone();
         // buildRepo();
         Server server = new Server(8020);
