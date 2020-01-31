@@ -43,23 +43,24 @@ public class CI extends AbstractHandler
         // gitClone();
         // System.out.println("------------------------------ "+buildRepo());
         //runRepo();
-
-
+        Check c = new Check();
+        Thread t = new Thread(c);
+        t.start();
     }
 
     // used to start the CI server in command line
     public static void main(String[] args) throws Exception
     {
-
-        Check c = new Check();
-        Thread t = new Thread(c);
-        t.start();
-        t.join();
-        System.out.println("------------------------------ "+c.success);
+        // 
+        // Check c = new Check();
+        // Thread t = new Thread(c);
+        // t.start();
+        // t.join();
+        // System.out.println("------------------------------ "+c.success);
         //runRepo();
-        // Server server = new Server(8020);
-        // server.setHandler(new CI());
-        // server.start();
-        // server.join();
+        Server server = new Server(8020);
+        server.setHandler(new CI());
+        server.start();
+        server.join();
     }
 }
