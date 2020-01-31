@@ -38,9 +38,20 @@ public class CI extends AbstractHandler
         // 1st clone your repository
         // 2nd compile the code
 
-
+        gitClone();
 
         response.getWriter().println("CI job done");
+    }
+
+    private static void gitClone() {
+      try{
+      Git git = Git.cloneRepository()
+      .setURI( "https://github.com/filhed97/DD2480-G20-Assignment1.git" )
+      .call();
+      git.checkout().setName( "origin/" + "gradle").call();
+      } catch(Exception e) {
+        System.err.println("Clone exception !!");
+      }
     }
 
 
