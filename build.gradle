@@ -23,12 +23,15 @@ repositories {
 dependencies {
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:28.1-jre'
-
+    implementation "org.eclipse.jgit:org.eclipse.jgit:5.6.0.201912101111-r"
+    implementation "org.eclipse.jetty:jetty-ajp:7.0.2.v20100331"
+    implementation "javax.servlet:servlet-api:2.5"
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
+
 }
 
 application {
     // Define the main class for the application.
-    mainClassName = 'DD2480.G20.A2.App'
+    mainClassName = 'CI'
 }
