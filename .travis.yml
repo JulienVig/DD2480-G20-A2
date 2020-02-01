@@ -1,7 +1,6 @@
 language: java
 
 jdk:
-  - oraclejdk9
   - openjdk9
 
 before_cache:
