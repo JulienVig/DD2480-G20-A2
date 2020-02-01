@@ -1,8 +1,8 @@
 language: java
 
-script:
-  - jdk_switcher use oraclejdk9
-  - jdk_switcher use openjdk9
+jdk:
+  - oraclejdk9
+  - openjdk9
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
