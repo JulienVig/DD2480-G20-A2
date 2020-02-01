@@ -10,6 +10,12 @@ Compile and test the different files with
 ```console
 foo@bar:~$ ./gradlew build
 ```
+
+## Travis
+
+Travis is configured to compile the project and perform automated tested every `push` and `pull request` events. The build history is accessible [here](https://travis-ci.org/JulienVig/DD2480-G20-A2).
+
+
 ## Compilation and Testing Implementation
 
 In order to compile and test the `assessment` branch, the server clones the repository and checkout in the relevant branch using the library `JGit`. The class `GitUtil` references useful methods relevant to Git operations. Once the repository is cloned the server builds it with the `Gradle tooling API`, with which a java program can trigger `Gradle` tasks like build. Therefore, the server compiles and tests the branch through a single command. The output of the build is stored as a boolean value.
@@ -27,4 +33,4 @@ In order to compile and test the `assessment` branch, the server clones the repo
 |:--|:--|
 | Core feature #3: <br/> Notification with  <br/> `commit status`  <br/> | Architecture  of <br/> the build history |
 |**Julien** | **Susie** |
-Core feature #1, #2:<br/> Build the project | Log managment <br/> of the build history
+Core feature #1, #2:<br/> Config Travis | Log management <br/> of the build history
