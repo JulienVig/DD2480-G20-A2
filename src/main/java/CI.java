@@ -11,6 +11,11 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.*;
 
+import org.eclipse.jgit.api.*;
+import org.gradle.tooling.*;
+import java.util.concurrent.*;
+import com.google.common.util.concurrent.*;
+
 /**
  Skeleton of a ContinuousIntegrationServer which acts as webhook
  See the Jetty documentation for API documentation of those classes.
