@@ -48,17 +48,12 @@ public class CI extends AbstractHandler
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
         baseRequest.setHandled(true);
-        System.out.println(target);
+        //System.out.println(target);
         response.getWriter().println("CI job done");
 
-        gitClone();
-
-
-        response.getWriter().println("CI job done");
-
-        JSONObject jsonobject = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+        String json = request.getReader().lines().collect(Collectors.joining());
+        JSONObject jsonobject = new JSONObject(json);
         String sha = jsonobject.getJSONObject("head_commit").getString("id");
-
         Thread t = new Thread(new Runnable(){
           public void run() {
             GitUtil.gitClone("assess_error");
@@ -75,32 +70,12 @@ public class CI extends AbstractHandler
         t.start();
     }
 
-
-
-    private static boolean buildRepo(){
-      boolean success = true;
-      ProjectConnection connection = GradleConnector.newConnector()
-      .forProjectDirectory(new File("DD2480-G20-A2"))
-      .connect();
-
-        Check c = new Check();
-        Thread t = new Thread(c);
-        Thread t = new Thread(new Runnable(){
-          public void run() {
-             GitUtil.gitClone("assess_error");
-             boolean success = GitUtil.buildRepo();
-             //Link to the email /commit status method here
-          }
-        });
-        t.start();
-    }
-
     // used to start the CI server in command line
     public static void main(String[] args) throws Exception
     {
-        Server server = new Server(8020);
-        server.setHandler(new CI());
-        server.start();
-        server.join();
+      Server server = new Server(8020);
+      server.setHandler(new CI());
+      server.start();
+      server.join();
     }
 }
