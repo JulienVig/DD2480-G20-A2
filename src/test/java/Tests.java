@@ -61,6 +61,5 @@ public class Tests {
     GitUtil.gitClone("assess_error");
     boolean result = GitUtil.buildRepo();
     assertThat(result, equalTo(false));
-
   }
 }

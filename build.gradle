@@ -42,7 +42,6 @@ dependencies {
     testImplementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.6.2'
 
 
-
 }
 
 application {
