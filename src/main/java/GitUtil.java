@@ -37,12 +37,7 @@ public class GitUtil {
          connection.newBuild().forTasks("build")
          .setStandardOutput(System.out).run();
       } catch(Exception e){
-<<<<<<< HEAD
-        //System.out.println("************************ Error -> "+e);
-=======
-
         System.out.println("************************ Error -> "+e);
->>>>>>> master
         success = false;
       }
       finally {
