@@ -24,6 +24,9 @@ import org.gradle.tooling.*;
 import java.util.concurrent.*;
 import com.google.common.util.concurrent.*;
 
+import java.util.stream.Collectors;
+import org.json.JSONObject;
+
 
 
 
@@ -55,11 +58,20 @@ public class CI extends AbstractHandler
         System.out.println(target);
         response.getWriter().println("CI job done");
 
+        JSONObject jsonobject = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+        String sha = jsonobject.getJSONObject("head_commit").getString("id");
+
         Thread t = new Thread(new Runnable(){
           public void run() {
-             GitUtil.gitClone("assess_error");
-             boolean success = GitUtil.buildRepo();
-             //Link to the email /commit status method here
+            GitUtil.gitClone("assess_error");
+            boolean success = GitUtil.buildRepo();
+            //Link to the email /commit status method here
+
+            try {
+              setStatus(success, sha);
+            } catch (Exception e){
+              System.out.println(e.getMessage());
+            }
           }
         });
         t.start();
@@ -70,7 +82,6 @@ public class CI extends AbstractHandler
       String GitUserName = "CheckStatusDummy";
       String GitToken = "f63a5ac303318960ad9b200c29571b95df01bbff";
       String url = "https://api.github.com/repos/JulienVig/DD2480-G20-A2/statuses/".concat(sha);
-      System.out.println(url);
       
       SslContextFactory.Client sslContextFactory = new SslContextFactory.Client();
       HttpClient httpClient = new HttpClient(sslContextFactory);
