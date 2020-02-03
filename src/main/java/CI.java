@@ -2,8 +2,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletException;
 
-import java.io.IOException;
-
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
@@ -16,18 +14,28 @@ import org.eclipse.jetty.client.api.AuthenticationStore;
 import org.eclipse.jetty.client.util.BasicAuthentication;
 import java.net.URI;
 
+<<<<<<< HEAD
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.File;
+=======
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.*;
+import java.nio.file.attribute.*;
+>>>>>>> e54edfe... Compile and Test assessment #7 #10 (#11)
 
 import org.eclipse.jgit.api.*;
 import org.gradle.tooling.*;
 import java.util.concurrent.*;
 import com.google.common.util.concurrent.*;
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> e54edfe... Compile and Test assessment #7 #10 (#11)
 
 /**
  Skeleton of a ContinuousIntegrationServer which acts as webhook
@@ -36,8 +44,15 @@ import com.google.common.util.concurrent.*;
 */
 public class CI extends AbstractHandler
 {
-    private boolean success;
-
+    /**
+     * The method called by the github webhook.
+     * @param  target
+     * @param  baseRequest
+     * @param  request
+     * @param  response
+     * @throws IOException
+     * @throws ServletException
+     */
     public void handle(String target,
                        Request baseRequest,
                        HttpServletRequest request,
@@ -47,7 +62,6 @@ public class CI extends AbstractHandler
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
         baseRequest.setHandled(true);
-
         System.out.println(target);
         response.getWriter().println("CI job done");
         // here you do all the continuous integration tasks
@@ -59,17 +73,15 @@ public class CI extends AbstractHandler
 
 
         response.getWriter().println("CI job done");
-    }
 
-    private static void gitClone() {
-      try{
-      Git git = Git.cloneRepository()
-      .setURI( "https://github.com/filhed97/DD2480-G20-Assignment1.git" )
-      .call();
-      git.checkout().setName( "origin/" + "gradle").call();
-      } catch(Exception e) {
-        System.err.println("Clone exception !!");
-      }
+        Thread t = new Thread(new Runnable(){
+          public void run() {
+             GitUtil.gitClone("assess_error");
+             boolean success = GitUtil.buildRepo();
+             //Link to the email /commit status method here
+          }
+        });
+        t.start();
     }
 
     private static void setStatus(String url, boolean success) throws Exception {
