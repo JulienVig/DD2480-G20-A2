@@ -66,26 +66,31 @@ public class CI extends AbstractHandler
       }
     }
 
-    private static void setStatus(String url) throws Exception {
-      String GitUserName = "";
-      String GitPassWord = "";
-      //String url = "https://api.github.com/repos/Eimutt/DD2480-G20-Assignment2/statuses/0cb960cedcef7f84c38ccc9d804a503f8bde0592";
+    private static void setStatus(String url, boolean success) throws Exception {
+      String GitUserName = "CheckStatusDummy";
+      String GitToken = "f63a5ac303318960ad9b200c29571b95df01bbff";
+      url = "https://api.github.com/repos/Eimutt/DD2480-G20-Assignment2/statuses/0cb960cedcef7f84c38ccc9d804a503f8bde0592";
 
       SslContextFactory.Client sslContextFactory = new SslContextFactory.Client();
       HttpClient httpClient = new HttpClient(sslContextFactory);
 
       httpClient.setFollowRedirects(false);
 
-      String jsonStr = "{\"state\": \"error\", \"description\": \"It test!\", \"target_url\": \"http://localhost\"}";
+      String jsonStr;
+      if(success){
+        jsonStr = "{\"state\": \"success\", \"description\": \"Build successful!\"}";
+      } else {
+        jsonStr = "{\"state\": \"err\", \"description\": \"Build failed!\"}";
+      }
 
       try {
         httpClient.start();
 
         AuthenticationStore auth = httpClient.getAuthenticationStore();
-        URI uri = URI.create("url");
-        auth.addAuthenticationResult(new BasicAuthentication.BasicResult(uri, GitUserName, GitPassWord));
+        URI uri = URI.create(url);
+        auth.addAuthenticationResult(new BasicAuthentication.BasicResult(uri, GitUserName, GitToken));
 
-        ContentResponse response = httpClient.POST("url")
+        ContentResponse response = httpClient.POST(url)
                 .header(HttpHeader.CONTENT_TYPE, "application/json; charset=utf-8")
                 .content(new StringContentProvider(jsonStr))
                 .send();
@@ -103,7 +108,7 @@ public class CI extends AbstractHandler
     // used to start the CI server in command line
     public static void main(String[] args) throws Exception
     {
-        setStatus("{'state': 'success', 'description': 'It works!', 'target_url': 'http://localhost'}");
+        setStatus("{'state': 'success', 'description': 'It works!', 'target_url': 'http://localhost'}", true);
         /*
         Server server = new Server(8020);
         server.setHandler(new CI());
