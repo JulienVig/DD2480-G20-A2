@@ -55,11 +55,12 @@ public class Tests {
   //@Ignore                                               //Junit ignores this test
   @Test
   public void TestBuildRepo(){
-    //GitUtil.gitClone("assessment");
-    //assertThat(GitUtil.buildRepo(), equalTo(true));
+    GitUtil.gitClone("assessment");
+    assertThat(GitUtil.buildRepo(), equalTo(true));
 
     GitUtil.gitClone("assess_error");
-    assertThat(GitUtil.buildRepo(), equalTo(false));
+    boolean result = GitUtil.buildRepo();
+    assertThat(result, equalTo(false));
 
   }
 }
