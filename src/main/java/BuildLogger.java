@@ -21,7 +21,7 @@ public class BuildLogger{
 			directory.mkdir();
 		}
 		
-		File file = new File("build_history\\index.html");
+		File file = new File("build_history/index.html");
 		try{
 			if(!file.exists())
 				file.createNewFile();
@@ -88,7 +88,7 @@ public class BuildLogger{
 
 		List<String> lines = Arrays.asList(backButton,buildNumber, author, email, timestamp, repo, branch, success);
 
-		Path file = Paths.get("build_history\\build_" + buildData.id + ".html");
+		Path file = Paths.get("build_history/build_" + buildData.id + ".html");
 		try {
 			Files.write(file, lines, StandardCharsets.UTF_8);
 		} catch (IOException e) {
