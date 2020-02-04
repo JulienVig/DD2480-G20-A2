@@ -94,10 +94,15 @@ public class GitUtil {
       });
     }
 
+    /* This function taking in a sha of a commit and a boolean
+    * The boolean value represents if that specific commit lead to a succesful build or not
+    * The commit status is then updated on github by using their API
+    * A dummy account is used for this purpose
+    */
     public static void setStatus(boolean success, String sha) throws Exception {
       String GitUserName = "CheckStatusDummy";
-      String GitToken = "f63a5ac303318960ad9b200c29571b95df01bbff";
-      String url = "https://api.github.com/repos/JulienVig/DD2480-G20-A2/statuses/".concat(sha);
+      String GitToken = "5601f2014c287f9cac3aa83a0e356bb651c5b570";
+      String url = "https://api.github.com/repos/JulienVig/DD2480-G20-A2/statuses/37d1658db56342eafe6f7319f52ce64fd6c930a3";
       
       SslContextFactory.Client sslContextFactory = new SslContextFactory.Client();
       HttpClient httpClient = new HttpClient(sslContextFactory);
@@ -108,7 +113,7 @@ public class GitUtil {
       if(success){
         jsonStr = "{\"state\": \"success\", \"description\": \"Build successful!\"}";
       } else {
-        jsonStr = "{\"state\": \"err\", \"description\": \"Build failed!\"}";
+        jsonStr = "{\"state\": \"error\", \"description\": \"Build failed!\"}";
       }
 
       try {
@@ -123,7 +128,7 @@ public class GitUtil {
                 .content(new StringContentProvider(jsonStr))
                 .send();
 
-        System.out.println(response.getContentAsString());
+        //System.out.println(response.getContentAsString());
 
         return;
       } finally {
