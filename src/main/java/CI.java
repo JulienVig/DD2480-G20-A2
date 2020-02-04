@@ -41,24 +41,6 @@ public class CI extends AbstractHandler
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
         baseRequest.setHandled(true);
-        System.out.println(target);
-        response.getWriter().println("CI job done");
-        System.out.println("--------------------------------------");
-        System.out.println("--------------T A R G E T-------------");
-        System.out.println("--------------------------------------");
-        System.out.println(target);
-        System.out.println("--------------------------------------");
-        System.out.println("-------------BASE REQUEST-------------");
-        System.out.println("--------------------------------------");
-        System.out.println(baseRequest);
-        System.out.println("--------------------------------------");
-        System.out.println("------------R E Q U E  S T------------");
-        System.out.println("--------------------------------------");
-        System.out.println(request);
-        System.out.println("--------------------------------------");
-        System.out.println("--------------R E P O N S E-------------");
-        System.out.println("--------------------------------------");
-        System.out.println(response);
         Thread t = new Thread(new Runnable(){
           public void run() {
              GitUtil.gitClone("assess_error");
