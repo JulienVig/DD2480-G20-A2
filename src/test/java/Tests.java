@@ -14,6 +14,19 @@ import org.gradle.tooling.*;
 import java.util.concurrent.*;
 import com.google.common.util.concurrent.*;
 
+import java.util.stream.Collectors;
+import org.json.JSONObject;
+import org.eclipse.jetty.client.HttpClient;
+import org.eclipse.jetty.client.api.ContentResponse;
+import org.eclipse.jetty.util.ssl.SslContextFactory;
+import org.eclipse.jetty.client.util.StringContentProvider;
+import org.eclipse.jetty.http.HttpHeader;
+import org.eclipse.jetty.client.api.AuthenticationStore;
+import org.eclipse.jetty.client.util.BasicAuthentication;
+import java.net.URI;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 
 public class Tests {
    private File repo = new File("DD2480-G20-A2");
@@ -62,4 +75,46 @@ public class Tests {
     boolean result = GitUtil.buildRepo();
     assertThat(result, equalTo(false));
   }
+
+  /*
+  @Test
+  public void testSetStatus(){
+    String sha = "b5b0d6fe6beec006a8909fc3ced4bb89deb6715f";
+    try {   
+      GitUtil.setStatus(true, sha);
+    } catch (Exception e){
+      System.out.println(e.getMessage());
+    }
+    
+    String GitUserName = "CheckStatusDummy";
+    String GitToken = "f63a5ac303318960ad9b200c29571b95df01bbff";
+    String url = "https://api.github.com/repos/JulienVig/DD2480-G20-A2/statuses/".concat(sha);
+    
+    SslContextFactory.Client sslContextFactory = new SslContextFactory.Client();
+    HttpClient httpClient = new HttpClient(sslContextFactory);
+    
+    httpClient.setFollowRedirects(false);
+
+    
+    try {
+      httpClient.start();
+
+      AuthenticationStore auth = httpClient.getAuthenticationStore();
+      URI uri = URI.create(url);
+      auth.addAuthenticationResult(new BasicAuthentication.BasicResult(uri, GitUserName, GitToken));
+
+      ContentResponse response = httpClient.GET(url);
+      String jsonStr = response.getContentAsString();
+      System.out.println(jsonStr);
+      assertThat(jsonStr, equalTo("test"));
+
+      System.out.println(response.getContentAsString());
+
+      return;
+    } catch (Exception e) {
+        System.out.println(e.getMessage());
+    }
+    
+  }
+  */
 }
