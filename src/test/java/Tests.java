@@ -54,7 +54,7 @@ public class Tests {
    * Tests if effectively clone the repository
    * Clone the repo and checks if the folder exits.
    */
-  @Ignore                                               //Junit ignores this test
+  //@Ignore                                               //Junit ignores this test
   @Test
   public void TestGitClone() {
     GitUtil.gitClone("assessment");
@@ -65,7 +65,7 @@ public class Tests {
    * Tests if build compiles and tests the repository
    *
    */
-  @Ignore                                               //Junit ignores this test
+  //@Ignore                                               //Junit ignores this test
   @Test
   public void TestBuildRepo(){
     GitUtil.gitClone("assessment");
@@ -96,11 +96,11 @@ public class Tests {
     HttpClient httpClient = new HttpClient(sslContextFactory);
     httpClient.setFollowRedirects(false);
     String state = "";
+    String url = "https://api.github.com/repos/JulienVig/DD2480-G20-A2/statuses/".concat(sha);
 
     //Gets the status of the latest commit
     try {
       httpClient.start();
-
       ContentResponse response = httpClient.GET(url);
       JSONArray jsonArray = new JSONArray(response.getContentAsString());
       JSONObject latestcommit = (JSONObject) jsonArray.get(0);
