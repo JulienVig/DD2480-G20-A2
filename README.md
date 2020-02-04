@@ -22,7 +22,9 @@ In order to compile and test the `assessment` branch, the server clones the repo
 
 ## Notification Implementation
 
-**TODO**
+Notification is implemented by using the open GitHub API. When the CI server recieves a push webhook the sha of the latest commit is extracted from the request body. [The API request used is documented here.](https://developer.github.com/v3/repos/statuses/#create-a-status). After building we send the status of the build to the corresponding commit on github. This is done in a method called `SetStatus` in the `GitUtil` class. This method takes a sha and a boolean representing if a build was successful or not. It then updates the corresponding commit on github by performing a `POST` request to the API.
+
+Testing is done by performing a `GET` request to the same API. This gives us the statuses of the commit which is parsed to get the status of the latest one. The tests verify that the commit status has been correctly updated by performing two GET request before and after calling the `SetStatus` method. 
 
 ## Build History
 **TODO**
