@@ -47,12 +47,14 @@ public class CI extends AbstractHandler
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
         baseRequest.setHandled(true);
-        System.out.println(target);
+        //System.out.println(target);
         response.getWriter().println("CI job done");
 
-        JSONObject jsonobject = new JSONObject(request.getReader().lines().collect(Collectors.joining()));
+        String json = request.getReader().lines().collect(Collectors.joining());
+        System.out.println(json);
+        JSONObject jsonobject = new JSONObject(json);
         String sha = jsonobject.getJSONObject("head_commit").getString("id");
-
+        System.out.println(sha);
         Thread t = new Thread(new Runnable(){
           public void run() {
             GitUtil.gitClone("assessment");
@@ -72,19 +74,9 @@ public class CI extends AbstractHandler
     // used to start the CI server in command line
     public static void main(String[] args) throws Exception
     {
-      Server server = null;
-      System.out.println("Before");
-        try{
-         server = new Server(8020);//8020
-      }catch(Exception e){
-        System.out.println("Server error ->"+e);
-      }finally{
-        System.out.flush();
-        System.out.println("After");
-      }
-      System.out.println("After2");
+      Server server = new Server(8020);
       server.setHandler(new CI());
-        server.start();
-        server.join();
+      server.start();
+      server.join();
     }
 }
