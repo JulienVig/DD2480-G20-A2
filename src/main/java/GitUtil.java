@@ -16,6 +16,8 @@ import org.eclipse.jetty.http.HttpHeader;
 import java.net.URI;
 
 import java.io.File;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.*;
@@ -101,7 +103,18 @@ public class GitUtil {
     */
     public static void setStatus(boolean success, String sha) throws Exception {
       String GitUserName = "CheckStatusDummy";
-      String GitToken = "44eac86cd8f6efbd5cb7f8dd26c301798464bc80";
+      String GitToken = "";
+      BufferedReader br = null;
+      try{
+       br = new BufferedReader(new FileReader("token.txt"));
+       GitToken = br.readLine();
+    }catch(Exception e){
+      System.err.println("Exception setStatus File");
+    }finally{
+      br.close();
+
+    }
+      System.out.println(GitToken);
       String url = "https://api.github.com/repos/JulienVig/DD2480-G20-A2/statuses/".concat(sha);
 
       SslContextFactory.Client sslContextFactory = new SslContextFactory.Client();

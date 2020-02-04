@@ -51,10 +51,8 @@ public class CI extends AbstractHandler
         response.getWriter().println("CI job done");
 
         String json = request.getReader().lines().collect(Collectors.joining());
-        System.out.println(json);
         JSONObject jsonobject = new JSONObject(json);
         String sha = jsonobject.getJSONObject("head_commit").getString("id");
-        System.out.println(sha);
         Thread t = new Thread(new Runnable(){
           public void run() {
             GitUtil.gitClone("assessment");
