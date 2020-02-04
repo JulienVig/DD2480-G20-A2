@@ -75,7 +75,7 @@ public class CI extends AbstractHandler
       Server server = null;
       System.out.println("Before");
         try{
-         server = new Server();//8020
+         server = new Server(8020);//8020
       }catch(Exception e){
         System.out.println("Server error ->"+e);
       }finally{
