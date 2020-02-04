@@ -5,14 +5,6 @@ import javax.servlet.ServletException;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
-import org.eclipse.jetty.client.HttpClient;
-import org.eclipse.jetty.client.api.ContentResponse;
-import org.eclipse.jetty.util.ssl.SslContextFactory;
-import org.eclipse.jetty.client.util.StringContentProvider;
-import org.eclipse.jetty.http.HttpHeader;
-import org.eclipse.jetty.client.api.AuthenticationStore;
-import org.eclipse.jetty.client.util.BasicAuthentication;
-import java.net.URI;
 
 <<<<<<< HEAD
 import java.io.BufferedReader;
@@ -87,7 +79,7 @@ public class CI extends AbstractHandler
             //Link to the email /commit status method here
 
             try {
-              setStatus(success, sha);
+              GitUtil.setStatus(success, sha);
             } catch (Exception e){
               System.out.println(e.getMessage());
             }
@@ -96,53 +88,12 @@ public class CI extends AbstractHandler
         t.start();
     }
 
-    private static void setStatus(String url, boolean success) throws Exception {
-      String GitUserName = "CheckStatusDummy";
-      String GitToken = "f63a5ac303318960ad9b200c29571b95df01bbff";
-      String url = "https://api.github.com/repos/JulienVig/DD2480-G20-A2/statuses/".concat(sha);
-      SslContextFactory.Client sslContextFactory = new SslContextFactory.Client();
-      HttpClient httpClient = new HttpClient(sslContextFactory);
-
-      httpClient.setFollowRedirects(false);
-
-      String jsonStr;
-      if(success){
-        jsonStr = "{\"state\": \"success\", \"description\": \"Build successful!\"}";
-      } else {
-        jsonStr = "{\"state\": \"err\", \"description\": \"Build failed!\"}";
-      }
-
-      try {
-        httpClient.start();
-
-        AuthenticationStore auth = httpClient.getAuthenticationStore();
-        URI uri = URI.create(url);
-        auth.addAuthenticationResult(new BasicAuthentication.BasicResult(uri, GitUserName, GitToken));
-
-        ContentResponse response = httpClient.POST(url)
-                .header(HttpHeader.CONTENT_TYPE, "application/json; charset=utf-8")
-                .content(new StringContentProvider(jsonStr))
-                .send();
-
-        System.out.println(response.getContentAsString());
-
-        return;
-      } finally {
-          httpClient.stop();
-      }
-
-    }
-
-
     // used to start the CI server in command line
     public static void main(String[] args) throws Exception
     {
-        setStatus("{'state': 'success', 'description': 'It works!', 'target_url': 'http://localhost'}", true);
-        /*
         Server server = new Server(8020);
         server.setHandler(new CI());
         server.start();
         server.join();
-        */
     }
 }
