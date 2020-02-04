@@ -7,11 +7,12 @@ import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.eclipse.jetty.client.HttpClient;
 import org.eclipse.jetty.client.api.ContentResponse;
-import org.eclipse.jetty.util.ssl.SslContextFactory;
-import org.eclipse.jetty.client.util.StringContentProvider;
-import org.eclipse.jetty.http.HttpHeader;
 import org.eclipse.jetty.client.api.AuthenticationStore;
 import org.eclipse.jetty.client.util.BasicAuthentication;
+import org.eclipse.jetty.client.util.StringContentProvider;
+import org.eclipse.jetty.util.ssl.SslContextFactory;
+import org.eclipse.jetty.http.HttpHeader;
+
 import java.net.URI;
 
 import java.io.File;
@@ -45,7 +46,6 @@ public class GitUtil {
          connection.newBuild().forTasks("build")
          .setStandardOutput(System.out).run();
       } catch(Exception e){
-
         System.out.println("************************ Error -> "+e);
         success = false;
       }
@@ -102,8 +102,8 @@ public class GitUtil {
     public static void setStatus(boolean success, String sha) throws Exception {
       String GitUserName = "CheckStatusDummy";
       String GitToken = "";
-      String url = "https://api.github.com/repos/JulienVig/DD2480-G20-A2/statuses/37d1658db56342eafe6f7319f52ce64fd6c930a3";
-      
+      String url = "https://api.github.com/repos/JulienVig/DD2480-G20-A2/statuses/".concat(sha);
+
       SslContextFactory.Client sslContextFactory = new SslContextFactory.Client();
       HttpClient httpClient = new HttpClient(sslContextFactory);
 
@@ -134,7 +134,7 @@ public class GitUtil {
       } finally {
           httpClient.stop();
       }
-      
+
 
     }
 }
