@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.*;
+import java.io.BufferedReader;
 
 import org.eclipse.jgit.api.*;
 import org.gradle.tooling.*;
@@ -41,6 +42,10 @@ public class CI extends AbstractHandler
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
         baseRequest.setHandled(true);
+        BufferedReader br = request.getReader();
+        while ((thisLine = br.readLine()) != null) {
+           System.out.println(thisLine);
+        }
         Thread t = new Thread(new Runnable(){
           public void run() {
              GitUtil.gitClone("assess_error");

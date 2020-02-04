@@ -57,8 +57,10 @@ public class GitUtil {
 
         Git git = Git.cloneRepository()
         .setURI( "https://github.com/JulienVig/DD2480-G20-A2.git" )
+        .setBranchesToClone( singleton( "refs/heads/"+branch ) );
+        .setBranch( "refs/heads/"+branch )
         .call();
-        git.checkout().setName( "origin/" + branch).call();
+        //git.checkout().setName( "origin/" + branch).call();
       } catch(Exception e) {
         System.err.println("Clone exception !! "+e);
       }
