@@ -101,7 +101,7 @@ public class GitUtil {
     */
     public static void setStatus(boolean success, String sha) throws Exception {
       String GitUserName = "CheckStatusDummy";
-      String GitToken = "5601f2014c287f9cac3aa83a0e356bb651c5b570";
+      String GitToken = "";
       String url = "https://api.github.com/repos/JulienVig/DD2480-G20-A2/statuses/37d1658db56342eafe6f7319f52ce64fd6c930a3";
       
       SslContextFactory.Client sslContextFactory = new SslContextFactory.Client();
