@@ -42,7 +42,6 @@ public class Tests {
     try {
       File f = new File("test_delete");
       boolean created = f.mkdir();
-      System.out.print("Folder to delte created? "+created);
 
       GitUtil.deleteRepo("test_delete");
       assertThat(f.exists(), equalTo(false));
@@ -55,7 +54,7 @@ public class Tests {
    * Tests if effectively clone the repository
    * Clone the repo and checks if the folder exits.
    */
-  //@Ignore                                               //Junit ignores this test
+  @Ignore                                               //Junit ignores this test
   @Test
   public void TestGitClone() {
     GitUtil.gitClone("assessment");
@@ -66,7 +65,7 @@ public class Tests {
    * Tests if build compiles and tests the repository
    *
    */
-  //@Ignore                                               //Junit ignores this test
+  @Ignore                                               //Junit ignores this test
   @Test
   public void TestBuildRepo(){
     GitUtil.gitClone("assessment");
@@ -77,7 +76,7 @@ public class Tests {
     assertThat(result, equalTo(false));
   }
 
-  
+
   /**
    * Tests if its works to set the status of a commit
    * First the status of the commit is set to success and verified and then to error
@@ -87,16 +86,16 @@ public class Tests {
   public void testSetStatus(){
     String sha = "37d1658db56342eafe6f7319f52ce64fd6c930a3";
     //Sets commit status to success
-    try {   
+    try {
       GitUtil.setStatus(true, sha);
     } catch (Exception e){
       System.out.println(e.getMessage());
     }
-    
+
     String GitUserName = "CheckStatusDummy";
     String GitToken = "";
     String url = "https://api.github.com/repos/JulienVig/DD2480-G20-A2/statuses/".concat(sha);
-    
+
     SslContextFactory.Client sslContextFactory = new SslContextFactory.Client();
     HttpClient httpClient = new HttpClient(sslContextFactory);
     httpClient.setFollowRedirects(false);
@@ -116,16 +115,15 @@ public class Tests {
     } catch (Exception e) {
         System.out.println(e.getMessage());
     }
-
     assertThat(state, equalTo("success"));
-    
+
     //Sets commit status to error
-    try {   
+    try {
       GitUtil.setStatus(false, sha);
     } catch (Exception e){
       System.out.println(e.getMessage());
     }
-    
+
     //Gets the status of the latest commit
     try {
       httpClient.start();
@@ -141,9 +139,9 @@ public class Tests {
     } catch (Exception e) {
         System.out.println(e.getMessage());
     }
-    
+
 
     assertThat(state, equalTo("error"));
   }
-  
+
 }

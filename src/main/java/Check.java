@@ -24,15 +24,14 @@ import org.gradle.tooling.*;
 */
 
 
-public class Check{
+public class Check implements Runnable{
 
+  public boolean success;
 
-
-  public static boolean get() {
+  public void run() {
      gitClone();
-     boolean success = buildRepo();
+     success = buildRepo();
      System.out.println("************************ Build output -> "+success);
-     return success;
   }
 
 

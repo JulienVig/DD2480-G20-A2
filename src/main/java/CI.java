@@ -39,6 +39,7 @@ import org.json.JSONObject;
 */
 public class CI extends AbstractHandler
 {
+<<<<<<< HEAD
     /**
      * The method called by the github webhook.
      * @param  target
@@ -48,6 +49,9 @@ public class CI extends AbstractHandler
      * @throws IOException
      * @throws ServletException
      */
+=======
+
+>>>>>>> b59d55c... Trigger webhook
     public void handle(String target,
                        Request baseRequest,
                        HttpServletRequest request,
@@ -59,11 +63,8 @@ public class CI extends AbstractHandler
         baseRequest.setHandled(true);
         System.out.println(target);
         response.getWriter().println("CI job done");
-        // here you do all the continuous integration tasks
-        // for example
-        // 1st clone your repository
-        // 2nd compile the code
 
+<<<<<<< HEAD
         gitClone();
 
 
@@ -88,9 +89,74 @@ public class CI extends AbstractHandler
         t.start();
     }
 
+
+
+    private static boolean buildRepo(){
+      boolean success = true;
+      ProjectConnection connection = GradleConnector.newConnector()
+      .forProjectDirectory(new File("DD2480-G20-A2"))
+      .connect();
+
+        Check c = new Check();
+        Thread t = new Thread(c);
+=======
+        Thread t = new Thread(new Runnable(){
+          public void run() {
+             gitClone();
+             boolean success = buildRepo();
+             //Link the notify and build history here
+          }
+        });
+>>>>>>> b59d55c... Trigger webhook
+        t.start();
+    }
+
+    private static boolean buildRepo(){
+      boolean success = true;
+      ProjectConnection connection = GradleConnector.newConnector()
+      .forProjectDirectory(new File("DD2480-G20-A2"))
+      .connect();
+
+      try {
+         connection.newBuild().forTasks("build")
+         .setStandardOutput(System.out).run();
+      } catch(Exception e){
+        //System.out.println("************************ Error -> "+e);
+        success = false;
+      }
+      finally {
+         connection.close();
+         System.out.println(success);
+      }
+      return success;
+    }
+
+    private static void gitClone() {
+      try{
+      Git git = Git.cloneRepository()
+      .setURI( "https://github.com/JulienVig/DD2480-G20-A2.git" )
+      .call();
+      git.checkout().setName( "origin/" + "assessment").call();
+      } catch(Exception e) {
+        System.err.println("Clone exception !!");
+      }
+    }
+
     // used to start the CI server in command line
     public static void main(String[] args) throws Exception
     {
+<<<<<<< HEAD
+=======
+        // Thread t = new Thread(new Runnable(){
+        //   public void run() {
+        //      gitClone();
+        //      boolean success = buildRepo();
+        //      //Link the notify and build history here
+        //   }
+        // });
+        // t.start();
+
+>>>>>>> b59d55c... Trigger webhook
         Server server = new Server(8020);
         server.setHandler(new CI());
         server.start();
