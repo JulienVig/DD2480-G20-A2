@@ -2,6 +2,17 @@ import javax.servlet.http.HttpServletRequest;
 import org.json.*;
 import java.util.stream.Collectors;
 
+/**
+ *	This class receives a servlet request from a webhook and parses the relevant build
+ *	info which we wish to store in a log.
+ * @param repository		The repository which generated the webhook.
+ * @param branch			The branch which was pushed.
+ * @param id					The SHA which identifies the commit.
+ * @param timestamp		The time when the webhook(/build) was generated.
+ * @param name 			Name of the github user which pushed the commit.
+ * @param email				E-mail of the github user.
+ * @param success			Boolean value stating whether the build was a success(true) or failure(false). 
+ */
 public class ParsedData{
 	
 	public String repository;
@@ -10,6 +21,8 @@ public class ParsedData{
     public String timestamp;
 	public String name;
 	public String email;
+	
+	public boolean success;		//Passed to this class outside of the constructor.
 			
 	public ParsedData(HttpServletRequest request){
 		try{
