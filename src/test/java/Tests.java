@@ -16,6 +16,7 @@ import com.google.common.util.concurrent.*;
 
 import java.util.stream.Collectors;
 import org.json.JSONObject;
+import org.json.JSONArray;
 import org.eclipse.jetty.client.HttpClient;
 import org.eclipse.jetty.client.api.ContentResponse;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
@@ -76,10 +77,16 @@ public class Tests {
     assertThat(result, equalTo(false));
   }
 
-  /*
+  
+  /**
+   * Tests if its works to set the status of a commit
+   * First the status of the commit is set to success and verified and then to error
+   * This is done by calling the api to get all statuses on the specific commit
+   */
   @Test
   public void testSetStatus(){
-    String sha = "b5b0d6fe6beec006a8909fc3ced4bb89deb6715f";
+    String sha = "37d1658db56342eafe6f7319f52ce64fd6c930a3";
+    //Sets commit status to success
     try {   
       GitUtil.setStatus(true, sha);
     } catch (Exception e){
@@ -87,34 +94,56 @@ public class Tests {
     }
     
     String GitUserName = "CheckStatusDummy";
-    String GitToken = "f63a5ac303318960ad9b200c29571b95df01bbff";
+    String GitToken = "";
     String url = "https://api.github.com/repos/JulienVig/DD2480-G20-A2/statuses/".concat(sha);
     
     SslContextFactory.Client sslContextFactory = new SslContextFactory.Client();
     HttpClient httpClient = new HttpClient(sslContextFactory);
-    
     httpClient.setFollowRedirects(false);
+    String state = "";
 
-    
+    //Gets the status of the latest commit
     try {
       httpClient.start();
 
-      AuthenticationStore auth = httpClient.getAuthenticationStore();
-      URI uri = URI.create(url);
-      auth.addAuthenticationResult(new BasicAuthentication.BasicResult(uri, GitUserName, GitToken));
+      ContentResponse response = httpClient.GET(url);
+      JSONArray jsonArray = new JSONArray(response.getContentAsString());
+      JSONObject latestcommit = (JSONObject) jsonArray.get(0);
+      state = latestcommit.getString("state");
+      System.out.println(state);
+
+      //System.out.println(response.getContentAsString());
+    } catch (Exception e) {
+        System.out.println(e.getMessage());
+    }
+
+    assertThat(state, equalTo("success"));
+    
+    //Sets commit status to error
+    try {   
+      GitUtil.setStatus(false, sha);
+    } catch (Exception e){
+      System.out.println(e.getMessage());
+    }
+    
+    //Gets the status of the latest commit
+    try {
+      httpClient.start();
 
       ContentResponse response = httpClient.GET(url);
-      String jsonStr = response.getContentAsString();
-      System.out.println(jsonStr);
-      assertThat(jsonStr, equalTo("test"));
+      JSONArray jsonArray = new JSONArray(response.getContentAsString());
+      JSONObject latestcommit = (JSONObject) jsonArray.get(0);
+      state = latestcommit.getString("state");
+      System.out.println(state);
+      assertThat(state, equalTo("error"));
 
-      System.out.println(response.getContentAsString());
-
-      return;
+      //System.out.println(response.getContentAsString());
     } catch (Exception e) {
         System.out.println(e.getMessage());
     }
     
+
+    assertThat(state, equalTo("error"));
   }
-  */
+  
 }
