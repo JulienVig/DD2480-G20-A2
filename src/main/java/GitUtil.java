@@ -7,11 +7,12 @@ import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.eclipse.jetty.client.HttpClient;
 import org.eclipse.jetty.client.api.ContentResponse;
-import org.eclipse.jetty.util.ssl.SslContextFactory;
-import org.eclipse.jetty.client.util.StringContentProvider;
-import org.eclipse.jetty.http.HttpHeader;
 import org.eclipse.jetty.client.api.AuthenticationStore;
 import org.eclipse.jetty.client.util.BasicAuthentication;
+import org.eclipse.jetty.client.util.StringContentProvider;
+import org.eclipse.jetty.util.ssl.SslContextFactory;
+import org.eclipse.jetty.http.HttpHeader;
+
 import java.net.URI;
 
 import java.io.File;
@@ -45,7 +46,6 @@ public class GitUtil {
          connection.newBuild().forTasks("build")
          .setStandardOutput(System.out).run();
       } catch(Exception e){
-
         System.out.println("************************ Error -> "+e);
         success = false;
       }

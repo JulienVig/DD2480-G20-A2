@@ -55,7 +55,7 @@ public class CI extends AbstractHandler
 
         Thread t = new Thread(new Runnable(){
           public void run() {
-            GitUtil.gitClone("assess_error");
+            GitUtil.gitClone("assessment");
             boolean success = GitUtil.buildRepo();
             //Link to the email /commit status method here
 
@@ -72,8 +72,18 @@ public class CI extends AbstractHandler
     // used to start the CI server in command line
     public static void main(String[] args) throws Exception
     {
-        Server server = new Server(8020);
-        server.setHandler(new CI());
+      Server server = null;
+      System.out.println("Before");
+        try{
+         server = new Server();//8020
+      }catch(Exception e){
+        System.out.println("Server error ->"+e);
+      }finally{
+        System.out.flush();
+        System.out.println("After");
+      }
+      System.out.println("After2");
+      server.setHandler(new CI());
         server.start();
         server.join();
     }
