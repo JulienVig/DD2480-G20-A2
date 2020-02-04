@@ -92,10 +92,6 @@ public class Tests {
       System.out.println(e.getMessage());
     }
 
-    String GitUserName = "CheckStatusDummy";
-    String GitToken = "";
-    String url = "https://api.github.com/repos/JulienVig/DD2480-G20-A2/statuses/".concat(sha);
-
     SslContextFactory.Client sslContextFactory = new SslContextFactory.Client();
     HttpClient httpClient = new HttpClient(sslContextFactory);
     httpClient.setFollowRedirects(false);

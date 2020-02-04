@@ -108,13 +108,12 @@ public class GitUtil {
       try{
        br = new BufferedReader(new FileReader("token.txt"));
        GitToken = br.readLine();
-    }catch(Exception e){
-      System.err.println("Exception setStatus File");
-    }finally{
-      br.close();
+      }catch(Exception e){
+        System.err.println("Exception setStatus File");
+      }finally{
+        br.close();
+      }
 
-    }
-      System.out.println(GitToken);
       String url = "https://api.github.com/repos/JulienVig/DD2480-G20-A2/statuses/".concat(sha);
 
       SslContextFactory.Client sslContextFactory = new SslContextFactory.Client();
