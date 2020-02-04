@@ -41,7 +41,7 @@ public class Tests {
    * Tests if effectively clone the repository
    * Clone the repo and checks if the folder exits.
    */
-  //@Ignore                                               //Junit ignores this test
+  @Ignore                                               //Junit ignores this test
   @Test
   public void TestGitClone() {
     GitUtil.gitClone("assessment");
@@ -52,7 +52,7 @@ public class Tests {
    * Tests if build compiles and tests the repository
    *
    */
-  //@Ignore                                               //Junit ignores this test
+  @Ignore                                               //Junit ignores this test
   @Test
   public void TestBuildRepo(){
     GitUtil.gitClone("assessment");

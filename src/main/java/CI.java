@@ -38,6 +38,7 @@ public class CI extends AbstractHandler
                        HttpServletResponse response)
         throws IOException, ServletException
     {
+		
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
         baseRequest.setHandled(true);
@@ -65,10 +66,37 @@ public class CI extends AbstractHandler
         //   }
         // });
         // t.start();
-
+		
+		/*
+		//Use this for testing build storage
+		BuildLogger log = new BuildLogger();
+		
+		ParsedData bogey = new ParsedData();
+		bogey.repository = "www.github.org/examplerepo/";
+		bogey.branch = "www.github.org/examplerepo/branch/";
+		bogey.id = "1hx937dhsk29d491ne49jz1mx109k";
+		bogey.timestamp ="2020-02-04:16:41";
+		bogey.name = "Filip Hedlund";
+		bogey.email = "filhed97@gmail.com";
+		bogey.success = true;
+		log.store(bogey);
+		
+		ParsedData bogey2 = new ParsedData();
+		bogey2.repository = "www.github.org/examplerepo/";
+		bogey2.branch = "www.github.org/examplerepo/branch/";
+		bogey2.id = "a109hx29zwq1ne49317dhskjz1mxh";
+		bogey2.timestamp ="2020-02-04:17:51";
+		bogey2.name = "Filip Hedlund";
+		bogey2.email = "filhed97@gmail.com";
+		bogey2.success = false;
+		log.store(bogey2);
+		*/
+	
         Server server = new Server(8020);
         server.setHandler(new CI());
         server.start();
         server.join();
+		
+		
     }
 }

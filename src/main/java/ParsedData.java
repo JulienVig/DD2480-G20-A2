@@ -27,19 +27,23 @@ public class ParsedData{
 	public ParsedData(HttpServletRequest request){
 		try{
 			String payload = request.getReader().lines().collect(Collectors.joining());
-		JSONObject data = new JSONObject(payload);
-		JSONArray arr = data.getJSONArray("commits");
+			JSONObject data = new JSONObject(payload);
+			JSONArray arr = data.getJSONArray("commits");
 		
-		this.repository = data.getJSONObject("repository").getString("html_url");
-		this.branch = data.getString("ref");
-		this.id = arr.getJSONObject(0).getString("id");
-		this.timestamp = arr.getJSONObject(0).getString("timestamp");
-		this.name = arr.getJSONObject(0).getJSONObject("author").getString("name");
-		this.email = arr.getJSONObject(0).getJSONObject("author").getString("email");
+			this.repository = data.getJSONObject("repository").getString("html_url");
+			this.branch = data.getString("ref");
+			this.id = arr.getJSONObject(0).getString("id");
+			this.timestamp = arr.getJSONObject(0).getString("timestamp");
+			this.name = arr.getJSONObject(0).getJSONObject("author").getString("name");
+			this.email = arr.getJSONObject(0).getJSONObject("author").getString("email");
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 		
+	}
+	
+	//constructor for passing bogey values during testing
+	public ParsedData(){
 	}
 		
 }
