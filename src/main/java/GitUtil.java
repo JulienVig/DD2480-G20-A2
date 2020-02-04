@@ -28,7 +28,7 @@ import org.eclipse.jgit.api.*;
 import org.gradle.tooling.*;
 import java.util.concurrent.*;
 import com.google.common.util.concurrent.*;
-
+import java.util.Arrays;
 /**
  Skeleton of a ContinuousIntegrationServer which acts as webhook
  See the Jetty documentation for API documentation of those classes.
@@ -50,12 +50,11 @@ public class GitUtil {
          connection.newBuild().forTasks("build")
          .setStandardOutput(System.out).run();
       } catch(Exception e){
-        System.out.println("************************ Error -> "+e);
         success = false;
       }
       finally {
          connection.close();
-         System.out.println("Build output: "+success);
+         System.out.println(" ------------ BUILD OUTPUT: "+(success?"Success\n":"Failure\n"));
       }
       return success;
     }
@@ -69,9 +68,11 @@ public class GitUtil {
         if(new File(repo).exists()) deleteRepo(repo);
 
         Git git = Git.cloneRepository()
-        .setURI( "https://github.com/JulienVig/DD2480-G20-A2.git" )
+        .setURI( "https://github.com/JulienVig/DD2480-G20-A2.git")
+        .setBranchesToClone(Arrays.asList( "refs/heads/"+branch ))
+        .setBranch( "refs/heads/"+branch )
         .call();
-        git.checkout().setName( "origin/" + branch).call();
+        //git.checkout().setName( "origin/" + branch).call();
       } catch(Exception e) {
         System.err.println("Clone exception !! "+e);
       }

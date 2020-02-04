@@ -54,7 +54,7 @@ public class Tests {
    * Tests if effectively clone the repository
    * Clone the repo and checks if the folder exits.
    */
-  @Ignore                                               //Junit ignores this test
+  //@Ignore                                               //Junit ignores this test
   @Test
   public void TestGitClone() {
     GitUtil.gitClone("assessment");
@@ -65,12 +65,14 @@ public class Tests {
    * Tests if build compiles and tests the repository
    *
    */
-  @Ignore                                               //Junit ignores this test
+  //@Ignore                                               //Junit ignores this test
   @Test
   public void TestBuildRepo(){
+    System.out.println("----------- Build assessment branch -----------");
     GitUtil.gitClone("assessment");
     assertThat(GitUtil.buildRepo(), equalTo(true));
 
+    System.out.println("----------- Build assess_error branch -----------");
     GitUtil.gitClone("assess_error");
     boolean result = GitUtil.buildRepo();
     assertThat(result, equalTo(false));
@@ -97,7 +99,7 @@ public class Tests {
     HttpClient httpClient = new HttpClient(sslContextFactory);
     httpClient.setFollowRedirects(false);
     String state = "";
-
+    String url = "https://api.github.com/repos/JulienVig/DD2480-G20-A2/statuses/".concat(sha);
     //Gets the status of the latest commit
     try {
       httpClient.start();
@@ -106,7 +108,6 @@ public class Tests {
       JSONArray jsonArray = new JSONArray(response.getContentAsString());
       JSONObject latestcommit = (JSONObject) jsonArray.get(0);
       state = latestcommit.getString("state");
-      System.out.println(state);
 
       //System.out.println(response.getContentAsString());
     } catch (Exception e) {
@@ -129,7 +130,6 @@ public class Tests {
       JSONArray jsonArray = new JSONArray(response.getContentAsString());
       JSONObject latestcommit = (JSONObject) jsonArray.get(0);
       state = latestcommit.getString("state");
-      System.out.println(state);
       assertThat(state, equalTo("error"));
 
       //System.out.println(response.getContentAsString());
