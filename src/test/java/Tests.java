@@ -58,7 +58,7 @@ public class Tests {
   @Test
   public void TestGitClone() {
     GitUtil.gitClone("assessment");
-    assertThat(repo.exists(),equalTo(true));
+    assertThat(repo.exists(),equalTo(false));
   }
 
   /**
